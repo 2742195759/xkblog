@@ -17,7 +17,8 @@ category: install
 
 [latex数学支持文档](https://www.jianshu.com/p/aa359b3aef0c) ： 其实很简单，就是添加2个script文档，然后 为了将默认的( -> $，添加第三个script就行。在模版中的 \_include/post.html 中添加了如下代码：
 
-```
+```html
+
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script>
@@ -28,6 +29,7 @@ category: install
       }
     };
 </script>
+
 ```
 
 $$x_1 = 2$$
