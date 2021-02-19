@@ -2,7 +2,7 @@
 layout: post
 title: 首次发表
 date: 2021-02-19 19:20:23 +0900
-category: install
+category: install, jekyll, latex
 ---
 # 第一个发表
 
@@ -10,6 +10,23 @@ category: install
 
 以后所有的 install doc 之类的文章都会发表到这里哦
 
+## 对主题添加latex数学支持
+
 而且对原来的改进，添加了数学支持:
+
+[latex数学支持文档](https://www.jianshu.com/p/aa359b3aef0c) ： 其实很简单，就是添加2个script文档，然后 为了将默认的( -> $，添加第三个script就行。在模版中的 \_include/post.html 中添加了如下代码：
+
+``` html
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        processEscapes: true
+      }
+    };
+</script>
+```
 
 $$x_1 = 2$$
