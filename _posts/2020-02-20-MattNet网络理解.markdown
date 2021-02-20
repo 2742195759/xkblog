@@ -1,0 +1,27 @@
+---
+layout : post
+title  : MattNet 网络理解
+date   : 2021-02-20 5:33:00 +0900
+category : [DL, ML]
+---
+
+## MattNet 网络理解
+
+##### 文章地址： From Mendeley
+
+$$
+x_i = 1
+$$
+
+##### 当前难点：
+
+1. 需要高阶和低阶语义信息： 如何在ProposalNet 网络中添加C3和C4两个阶段的特征？？修改ProposalNet网络吗？
+2. 需要找到FasterRCNN中同类物体的所有信息： 如何在ProposalNet中找到对应物体的框？？需要提前熟悉一下FasterRCNN
+3. **<font color='red'>Attribute Predict 模块:</font> 看他的实现，好像可以直接加入这个模块。（这个模块可以作为图卷积模块的创新点）**
+4. **<font color='red'>引入Transformer: </font> 原来的论文使用的是普通的Attention网络和LSTM。尝试引入Transformer作为创新点**
+
+##### 当前研究点：
+
+1. 数据集中加入 Attribute Predict 模块支持。
+2. SCRC 中加入 Attribute Predict 模块 -- 查看这个模块是否可以改善原来的 SCRC 模型，消融分析。得到结果如果效果好，加入到 GraphRefer 模型中。
+
