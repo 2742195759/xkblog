@@ -5,7 +5,7 @@ date: 2021-02-19 09:00:00 +0900
 category: jekyll
 ---
 
-## jekyll 官网
+##  jekyll 官网
 
 [jekyll文档](http://jekyllcn.com/docs/)
 
@@ -15,7 +15,7 @@ category: jekyll
 
 ## 记录一些很好的 jekyll 主题
 
-jekyll主题的官方网站： <http://jekyllthemes.org/themes>
+jekyll主题的官方网站： <http://jekyllthemes.org/>
 
 1. [Uno-Timeline](http://jekyllthemes.org/themes/Uno-Timeline/) : 一个很好的科研blog主题，见下图
 2. [Latex Jekyll](http://jekyllthemes.org/themes/LatexJekyll/):  一个 Latex 风格的 blog， 效果看起来很像论文的风格。个人很喜欢。
