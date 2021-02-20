@@ -40,4 +40,17 @@ $$
 
 其中的：
 
-'parse': {'parsetree': '(ROOT (NP (NP (DT the) (NN lady)) (PP (IN with) (NP (DT the) (JJ blue) (NN shirt)))))', 'text': 'the lady with the blue shirt', 'dependencies': [['root', 'ROOT', 'lady'], ['det', 'lady', 'the'], ['det', 'shirt', 'the'], ['amod', 'shirt', 'blue'], ['prep_with', 'lady', 'shirt']], 'indexeddependencies': [['root', 'ROOT-0', 'lady-2'], ['det', 'lady-2', 'the-1'], ['det', 'shirt-6', 'the-4'], ['amod', 'shirt-6', 'blue-5'], ['prep_with', 'lady-2', 'shirt-6']], 'words': [['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '3', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '0'}], ['lady', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '8', 'Lemma': 'lady', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '4'}], ['with', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '13', 'Lemma': 'with', 'PartOfSpeech': 'IN', 'CharacterOffsetBegin': '9'}], ['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '17', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '14'}], ['blue', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '22', 'Lemma': 'blue', 'PartOfSpeech': 'JJ', 'CharacterOffsetBegin': '18'}], ['shirt', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '28', 'Lemma': 'shirt', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '23'}]]}, 
+'parse': {'parsetree': '(ROOT (NP (NP (DT the) (NN lady)) (PP (IN with) (NP (DT the) (JJ blue) (NN shirt)))))', 'text': 'the lady with the blue shirt', 'dependencies': [['root', 'ROOT', 'lady'], ['det', 'lady', 'the'], ['det', 'shirt', 'the'], ['amod', 'shirt', 'blue'], ['prep_with', 'lady', 'shirt']], 'indexeddependencies': [['root', 'ROOT-0', 'lady-2'], ['det', 'lady-2', 'the-1'], ['det', 'shirt-6', 'the-4'], ['amod', 'shirt-6', 'blue-5'], ['prep_with', 'lady-2', 'shirt-6']], 
+
+'words': [
+
+['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '3', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '0'}], ['lady', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '8', 'Lemma': 'lady', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '4'}], ['with', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '13', 'Lemma': 'with', 'PartOfSpeech': 'IN', 'CharacterOffsetBegin': '9'}], ['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '17', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '14'}], ['blue', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '22', 'Lemma': 'blue', 'PartOfSpeech': 'JJ', 'CharacterOffsetBegin': '18'}], ['shirt', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '28', 'Lemma': 'shirt', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '23'}]]}, 
+
+
+
+可以看到，.parse.word = [[...],[...]]很重要，然后JJ DT NN IN等是语法词汇，可以见链接： [PartOfSpeech](https://blog.csdn.net/LYJXCZ/article/details/17082341)  其中有各种名词表示的含义。例如JJ表示名词形容词，这个可以作为 attribute 的关键。
+
+**在 MattNet文章中提到，我们使用 color and generic attribute with low-frequency words removed 来作为 attribute 。其实也就是 NN 和 JJ 作为关键词，然后过滤低频名词。注意加上balanced Strategy**
+
+
+
