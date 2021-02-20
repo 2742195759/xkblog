@@ -23,14 +23,14 @@ category : DeepLearning
 
 ##### <font color='green'> 对Attribute Predict的研究：</font>
 
-``` json
+``` 
 # 下面是对 parse.json 文件的[0]的输出 len() == 100
 {
   'tokens': ['the', 'lady', 'with', 'the', 'blue', 'shirt'], 
  	'raw': 'THE LADY WITH THE BLUE SHIRT',  
   'sent_id': 0, 
   'sent': 'the lady with the blue shirt',
-  'parse': XXX 见下面
+  'parse': {'parsetree': '(ROOT (NP (NP (DT the) (NN lady)) (PP (IN with) (NP (DT the) (JJ blue) (NN shirt)))))', 'text': 'the lady with the blue shirt', 'dependencies': [['root', 'ROOT', 'lady'], ['det', 'lady', 'the'], ['det', 'shirt', 'the'], ['amod', 'shirt', 'blue'], ['prep_with', 'lady', 'shirt']], 'indexeddependencies': [['root', 'ROOT-0', 'lady-2'], ['det', 'lady-2', 'the-1'], ['det', 'shirt-6', 'the-4'], ['amod', 'shirt-6', 'blue-5'], ['prep_with', 'lady-2', 'shirt-6']], 'words': [['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '3', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '0'}], ['lady', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '8', 'Lemma': 'lady', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '4'}], ['with', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '13', 'Lemma': 'with', 'PartOfSpeech': 'IN', 'CharacterOffsetBegin': '9'}], ['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '17', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '14'}], ['blue', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '22', 'Lemma': 'blue', 'PartOfSpeech': 'JJ', 'CharacterOffsetBegin': '18'}], ['shirt', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '28', 'Lemma': 'shirt', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '23'}]]}
 }
 ```
 
@@ -47,17 +47,7 @@ category : DeepLearning
 	'r3': ['none'], 
 	'r8': ['blue']
 }
-
-'parse': {'parsetree': '(ROOT (NP (NP (DT the) (NN lady)) (PP (IN with) (NP (DT the) (JJ blue) (NN shirt)))))', 'text': 'the lady with the blue shirt', 'dependencies': [['root', 'ROOT', 'lady'], ['det', 'lady', 'the'], ['det', 'shirt', 'the'], ['amod', 'shirt', 'blue'], ['prep_with', 'lady', 'shirt']], 'indexeddependencies': [['root', 'ROOT-0', 'lady-2'], ['det', 'lady-2', 'the-1'], ['det', 'shirt-6', 'the-4'], ['amod', 'shirt-6', 'blue-5'], ['prep_with', 'lady-2', 'shirt-6']], 'words': [['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '3', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '0'}], ['lady', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '8', 'Lemma': 'lady', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '4'}], ['with', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '13', 'Lemma': 'with', 'PartOfSpeech': 'IN', 'CharacterOffsetBegin': '9'}], ['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '17', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '14'}], ['blue', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '22', 'Lemma': 'blue', 'PartOfSpeech': 'JJ', 'CharacterOffsetBegin': '18'}], ['shirt', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '28', 'Lemma': 'shirt', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '23'}]]}
 ```
-
-
-
-其中的：
-
-'parse': {'parsetree': '(ROOT (NP (NP (DT the) (NN lady)) (PP (IN with) (NP (DT the) (JJ blue) (NN shirt)))))', 'text': 'the lady with the blue shirt', 'dependencies': [['root', 'ROOT', 'lady'], ['det', 'lady', 'the'], ['det', 'shirt', 'the'], ['amod', 'shirt', 'blue'], ['prep_with', 'lady', 'shirt']], 'indexeddependencies': [['root', 'ROOT-0', 'lady-2'], ['det', 'lady-2', 'the-1'], ['det', 'shirt-6', 'the-4'], ['amod', 'shirt-6', 'blue-5'], ['prep_with', 'lady-2', 'shirt-6']], 'words': [['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '3', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '0'}], ['lady', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '8', 'Lemma': 'lady', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '4'}], ['with', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '13', 'Lemma': 'with', 'PartOfSpeech': 'IN', 'CharacterOffsetBegin': '9'}], ['the', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '17', 'Lemma': 'the', 'PartOfSpeech': 'DT', 'CharacterOffsetBegin': '14'}], ['blue', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '22', 'Lemma': 'blue', 'PartOfSpeech': 'JJ', 'CharacterOffsetBegin': '18'}], ['shirt', {'NamedEntityTag': 'O', 'CharacterOffsetEnd': '28', 'Lemma': 'shirt', 'PartOfSpeech': 'NN', 'CharacterOffsetBegin': '23'}]]}, 
-
-
 
 可以看到，.parse.word = [[...],[...]]很重要，然后JJ DT NN IN等是语法词汇，可以见链接： [PartOfSpeech](https://blog.csdn.net/LYJXCZ/article/details/17082341)  其中有各种名词表示的含义。例如JJ表示名词形容词，这个可以作为 attribute 的关键。
 
