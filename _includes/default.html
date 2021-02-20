@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
   {%- include head.html -%}
+  <link href="{{ site.baseurl }}/public/css/whitey.css" rel="stylesheet">
+  <link href="{{ site.baseurl }}/public/css/style.css" rel="stylesheet">
   <style>@import url({{ site.baseurl }}/public/css/syntax/{{ site.highlighter-theme }}.css);</style>
   <title>{{ site.title }}</title>
-  <link href="{{ site.baseurl }}/public/css/style.css" rel="stylesheet">
   <body>
   	<div class="container"> 
 		<div class="sidebar">

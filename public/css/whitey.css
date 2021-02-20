@@ -1,0 +1,171 @@
+article.post {
+	font-size: 19px !important;
+	margin: auto;
+	background: #fefefe;
+}
+
+article.post h4,h5{
+	font-size: 19px !important;
+}
+
+article.post {
+	font-family: "Vollkorn", Palatino, Times;
+	color: #333;
+	line-height: 1.4;
+	text-align: justify;
+}
+
+article.post {
+	max-width: 960px;
+	margin: 0 auto;
+	margin-bottom: 2em;
+	line-height: 1.53;
+}
+
+/* Typography
+-------------------------------------------------------- */
+
+article.post h1 {
+    margin-top: 1.6em;
+    font-weight: normal;
+}
+
+article.post h1 {
+    font-size:3em;
+}
+
+article.post h2 {
+    margin-top:2em;
+    font-weight: normal;
+}
+
+article.post h3 {
+    font-weight: normal;
+    font-style: italic;
+    margin-top: 3em;
+}
+
+article.post h1, 
+article.post h2, 
+article.post h3{
+    text-align: center;
+}
+
+article.post h2:after{
+    border-bottom: 1px solid #2f2f2f;
+    content: '';
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    height: 1px;
+}
+
+article.post h1+h2, article.post h2+h3 {
+    margin-top: 0.83em;
+}
+
+article.post p{
+    margin-top: 1%;
+    -webkit-hypens: auto;
+    -moz-hypens: auto;
+    hyphens: auto;
+}
+
+article.post .mathjax-block {
+    margin-top: 0;
+    -webkit-hypens: auto;
+    -moz-hypens: auto;
+    hyphens: auto;
+}
+article.post ul {
+    list-style: square;
+    padding-left: 1.2em;
+}
+article.post ol {
+    padding-left: 1.2em;
+}
+article.post blockquote {
+    margin-left: 1em;
+    padding-left: 1em;
+    border-left: 1px solid #ddd;
+}
+article.post code,
+article.post pre {
+    font-family: "Consolas", "Menlo", "Monaco", monospace, serif;
+    font-size: .9em;
+}
+article.post a {
+    color: #2484c1;
+    text-decoration: none;
+}
+article.post a:hover {
+    text-decoration: underline;
+}
+article.post a img {
+    border: none;
+}
+article.post h1 a,
+article.post h1 a:hover {
+    color: #333;
+    text-decoration: none;
+}
+article.post hr {
+    color: #ddd;
+    height: 1px;
+    margin: 2em 0;
+    border-top: solid 1px #ddd;
+    border-bottom: none;
+    border-left: 0;
+    border-right: 0;
+}
+article.post table {
+    margin-bottom: 1.333333rem
+}
+article.post table th,
+article.post table td {
+    padding: 8px;
+    line-height: 1.333333rem;
+    vertical-align: top;
+    border-top: 1px solid #ddd
+}
+article.post table th {
+    font-weight: bold
+}
+article.post table thead th {
+    vertical-align: bottom
+}
+article.post table caption+thead tr:first-child th,
+article.post table caption+thead tr:first-child td,
+article.post table colgroup+thead tr:first-child th,
+article.post table colgroup+thead tr:first-child td,
+article.post table thead:first-child tr:first-child th,
+article.post table thead:first-child tr:first-child td {
+    border-top: 0
+}
+article.post table tbody+tbody {
+    border-top: 2px solid #ddd
+}
+
+article.post .task-list{
+    padding:0;
+}
+
+article.post .task-list-item {
+    padding-left: 1.6rem;
+}
+
+article.post .task-list-item input:before {
+    content: '\221A';
+    display: inline-block;
+    width: 1.33333333rem;
+    height: 1.6rem;
+    vertical-align: middle;
+    text-align: center;
+    color: #ddd;
+    background-color: #fefefe;
+}
+
+article.post .task-list-item input:checked:before,
+article.post .task-list-item input[checked]:before{
+    color: inherit;
+}

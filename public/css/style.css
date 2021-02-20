@@ -226,17 +226,6 @@ p {
   margin-bottom: 0;
 }
 
-article h1,
-article h2,
-article h3,
-article h4,
-article h5,
-article h6 {
-	font-family: "Roboto", "Nanum Gothic";
-	color: #333;
-  	margin-bottom: 0;
-}
-
 article.home h1 a,
 article.home h2 a,
 article.home h3 a,
