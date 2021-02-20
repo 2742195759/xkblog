@@ -112,6 +112,11 @@ article.post a {
 article.post a:hover {
     text-decoration: underline;
 }
+
+article.post a.post-link {
+    color: #171316;
+}
+
 article.post a img {
     border: none;
 }
