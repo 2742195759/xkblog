@@ -1,3 +1,10 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+// 元素调整，调整 img 的路径。 {{site.baseurl}} + 绝对路径
+// 元素调整，调整 <p> <img/> </p> 中的 p 为 center
+$('article.post p+img').parent().css('text-align', 'center')
+
+</script>
 <footer class="site-footer h-card">
   <data class="u-url" href="{{ "/" | relative_url }}"></data>
 
