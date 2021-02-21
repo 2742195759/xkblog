@@ -100,8 +100,6 @@ code {
 	z-index: 1;
 	background-color: #222;
 	color: #fff;
-    margin-top: 10px;
-    margin-bottom: 30px;
 }
 
 .sidebar-item {
@@ -111,6 +109,11 @@ code {
 .sidebar ul {
 	list-style-type: none;
 	padding-inline-start: 0px;
+}
+
+div.sidebar-brand {
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 .sidebar-brand > a {
