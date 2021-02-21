@@ -2,7 +2,7 @@
 layout : post
 title  : MattNet 网络理解
 date   : 2021-02-20 5:33:00 +0000
-category : DL ML
+categories : DL ML
 ---
 
 ##### 文章地址： From Mendeley
