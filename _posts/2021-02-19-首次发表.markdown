@@ -1,17 +1,18 @@
 ---
 layout: post
-title: 首次发表
+title: Markdown在xkblog的一些用法
 date: 2021-02-19 19:20:23 +0000
-category: install
+category: markdown
+typora-root-url: ../../../code
 ---
 
-这个就是我的博客啦，第一个发表，现在感觉很nice
-
-以后所有的 install doc 之类的文章都会发表到这里哦
+> 这个就是我的博客啦，第一个发表，现在感觉很nice
+>
+> 以后所有的 install doc 之类的文章都会发表到这里哦
 
 ## 对主题添加latex数学支持
 
-而且对原来的改进，添加了数学支持:
+对原来主题的改进，添加了数学支持:
 
 [latex数学支持文档](https://www.jianshu.com/p/aa359b3aef0c) ： 其实很简单，就是添加2个script文档，然后 为了将默认的( -> $，添加第三个script就行。在模版中的 \_include/post.html 中添加了如下代码：
 
@@ -30,4 +31,34 @@ category: install
 
 ```
 
-$$x_1 = 2$$
+##### 用法：
+
+ ```markdown
+$$ x_1 = 2 $$
+ ```
+
+##### 效果：
+
+$$
+x_1 = 2
+$$
+
+
+
+## 图片添加和显示
+
+首先对于图片显示，我们的需求是本地和服务器保持一致，本地 typora 显示什么样，服务器显示啥样就很nice。所以我们首先是进行了主题的替换，whitey.css 文件已经在我们的主题上得到了迁移。这个步骤很nice。现在其实就差了图片的行为。图片行为比较复杂，没有那么简单，所以这里给出保持一致性的方法：
+
+1. 在文章前面加入 `typora-root-url: ../../../code` YAML代码块：
+
+   其中的YAML代码块表示typora的图片的根路径会被替换成为上面的。由于我们的图片保存在 /xkblog/public/img/下面，所以我们保证我们的本地 root-url 下面的 /xkblog 刚好就是我们的项目文件就好了。
+
+   
+
+2. 将图片拷贝到 /xkblog/public/img/下面
+
+3. 在md中添加 `<div align='center'><img src="/xkblog/public/img/example.jpg" alt="example" /></div>` 得到下面效果：
+
+   <div align='center'><img src="/xkblog/public/img/example.jpg" alt="example" /></div>
+
+4. 在md中如果直接添加 `![]()` 的图片代码，那么很不幸，在网站上会是左对齐，但是在typora会是居中对齐。所以我们使用div + img 的方式吧。这个方式可以支持更多的格式，同时可以保持一致性。目前也没有时间去尝试别的方法了。
