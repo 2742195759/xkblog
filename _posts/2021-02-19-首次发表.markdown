@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 首次发表
-date: 2021-02-19 19:20:23 +0900
+date: 2021-02-19 19:20:23 +0000
 category: install
 ---
 

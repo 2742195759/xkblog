@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 一些很好的jekyll主题
-date: 2021-02-19 09:00:00 +0900
+date: 2021-02-19 09:00:00 +0000
 category: jekyll
 ---
 
