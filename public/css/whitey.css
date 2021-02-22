@@ -76,10 +76,14 @@ article.post h1+h2, article.post h2+h3 {
 }
 
 article.post p{
-    margin-top: 1%;
+    margin-bottom: 0.7em;
     -webkit-hypens: auto;
     -moz-hypens: auto;
     hyphens: auto;
+}
+
+article.post li{
+    margin-bottom: 0.7em;
 }
 
 article.post .mathjax-block {
@@ -100,15 +104,18 @@ article.post blockquote {
     padding-left: 1em;
     border-left: 1px solid #ddd;
 }
+
 article.post code,
 article.post pre {
     font-family: "Consolas", "Menlo", "Monaco", monospace, serif;
     font-size: .9em;
 }
+
 article.post a {
     color: #2484c1;
     text-decoration: none;
 }
+
 article.post a:hover {
     text-decoration: underline;
 }
