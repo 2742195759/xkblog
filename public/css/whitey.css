@@ -5,6 +5,7 @@ article.post {
 	font-size: 19px !important;
 	margin: auto;
 	background: #fefefe;
+    font-weight: lighter;
 }
 
 article.post h1,
@@ -13,7 +14,7 @@ article.post h3,
 article.post h4,
 article.post h5,
 article.post h6 {
-	font-family: "Vollkorn", Palatino, Times;
+	font-family: "Songti SC", "Vollkorn", Palatino, Times;
 }
 
 article.post h4 {
@@ -26,7 +27,7 @@ article.post h6 {
 }
 
 article.post {
-	font-family: "Vollkorn", Palatino, Times;
+	font-family: "Songti SC", "Vollkorn", Palatino, Times;
 	color: #333;
 	line-height: 1.4;
 	text-align: justify;
