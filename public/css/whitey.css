@@ -21,9 +21,16 @@ article.post h4 {
 	font-size: 25px !important;
 }
 
-article.post h5,
+article.post h5 {
+    margin-bottom: 0.8em;
+    margin-top   : 0.8em;
+	font-size: 23px !important;
+}
+
 article.post h6 {
 	font-size: 19px !important;
+    margin-bottom: 0.6em;
+    margin-top   : 0.6em;
 }
 
 article.post {
