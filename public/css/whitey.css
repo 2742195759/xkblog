@@ -76,14 +76,16 @@ article.post h1+h2, article.post h2+h3 {
 }
 
 article.post p{
-    margin-bottom: 0.7em;
+    margin-bottom: 0.6em;
+    margin-top   : 0.6em;
     -webkit-hypens: auto;
     -moz-hypens: auto;
     hyphens: auto;
 }
 
 article.post li{
-    margin-bottom: 0.7em;
+    margin-bottom: 0.6em;
+    margin-top   : 0.6em;
 }
 
 article.post .mathjax-block {
