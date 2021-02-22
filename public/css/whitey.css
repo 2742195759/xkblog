@@ -16,7 +16,10 @@ article.post h6 {
 	font-family: "Vollkorn", Palatino, Times;
 }
 
-article.post h4,
+article.post h4 {
+	font-size: 25px !important;
+}
+
 article.post h5,
 article.post h6 {
 	font-size: 19px !important;
