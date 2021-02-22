@@ -56,7 +56,7 @@ category : DL
 >Specifically, r1 = entry-level name, r2 = color, r3 = size, r4 = abs. location,
 >r5 = rel. location, r6 = rel. object, r7 = generic, r8 = the left words
 
-**在 MattNet文章中提到，我们使用 color and generic attribute with low-frequency words removed 来作为 attribute 。其实也就是 r1 和 r2 作为attribute关键词，然后过滤低频名词。注意加上Balanced Strategy。<font color='orange'>其实作为尝试，我们可以直接过滤 JJ 和 NN 来作为关键词，因为 r2 中感觉很多颜色名词都没有被搜集（虽然可能是名词不直接形容主体）</font>**
+**在 MattNet文章中提到，我们使用 color and generic attribute with low-frequency words removed 来作为 attribute 。其实也就是 r1 和 r7 作为attribute关键词，然后过滤低频名词。注意加上Balanced Strategy。<font color='orange'>其实作为尝试，我们可以直接过滤 JJ 和 NN 来作为关键词，因为 r2 中感觉很多颜色名词都没有被搜集（虽然可能是名词不直接形容主体）</font>**
 
 ###### 具体实现
 
