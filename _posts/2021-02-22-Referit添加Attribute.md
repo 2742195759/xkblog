@@ -6,7 +6,7 @@ category : DL
 typora-root-url: ../../../code
 ---
 
-#### 1. ReferitDataset 添加 Attribute 信息
+#### <font color='green'>1. ReferitDataset 添加 Attribute 信息</font>
 
 ##### 		使用Dataset Transformer 的方式来添加 Attribute
 
@@ -37,9 +37,16 @@ typora-root-url: ../../../code
 ## 其中的 sent_id 可以从 sentence 中得到
 ```
 
+```
+(Pdb) dataset_dicts[17]
+{'sent_id': 17, 'file_name': '02/images/2998.jpg', 'image_size': [480, 360], 'tokens': ['center', 'building'], 'raw': 'center building', 'category_id': None, 'bbox': [120.0, 83.0, 134.0, 211.0], 'height': 480, 'width': 360, 'token_ids': [1, 49, 43, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], 'neg_token_ids': [[1, 7, 146, 373, 113, 7, 39, 3, 3, 3, 3, 3, 3, 3, 3]], 'atts': array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], dtype=uint32), 'atts_mask': array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], dtype=uint32)}
+
+### 这个是2021-02-23 日更新版本的 dd 内容。供参考。。
+```
+
+#### 2. 在SCRC中添加 Attribute Predict 分支 Loss
 
 
-#### 2. Referit Api 记录
 
 
 
