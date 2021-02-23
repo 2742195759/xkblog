@@ -60,3 +60,38 @@ $$
    <div align='center'><img src="/xkblog/public/img/example.jpg" alt="example" /></div>
 
 4. 在md中如果直接添加 `![]()` 的图片代码，那么很不幸，在网站上会是左对齐，但是在typora会是居中对齐。所以我们使用div + img 的方式吧。这个方式可以支持更多的格式，同时可以保持一致性。目前也没有时间去尝试别的方法了。
+
+
+
+## 对主题添加 Mermaid 数据流图功能：
+
+##### 用法和效果
+
+ ```
+graph LR
+	KaTex--> A(标记 Accents)
+	A-->撇,估计,均值,向量等写于符号上下的标记
+	KaTex--> 分隔符_Delimiters
+	分隔符_Delimiters-->小中大括号,竖杠,绝对值等分隔符的反斜杠写法
+	KaTex--> 公式组_Enviroments
+	公式组_Enviroments-->B(.....)
+	KaTex-->C(...)
+ ```
+
+然后将上面的语言标志为 mermaid。然后网页就会自动渲染了。
+
+```mermaid
+graph LR
+	KaTex--> A(标记 Accents)
+	A-->撇,估计,均值,向量等写于符号上下的标记
+	KaTex--> 分隔符_Delimiters
+	分隔符_Delimiters-->小中大括号,竖杠,绝对值等分隔符的反斜杠写法
+	KaTex--> 公式组_Enviroments
+	公式组_Enviroments-->B(.....)
+	KaTex-->C(...)
+```
+
+##### 功能开发细节
+
+TODO
+
