@@ -10,7 +10,7 @@ typora-root-url: ../../../code
 >
 > 以后所有的 install doc 之类的文章都会发表到这里哦
 
-## 对主题添加latex数学支持
+## 对XKBLOG添加latex数学支持
 
 对原来主题的改进，添加了数学支持:
 
@@ -43,7 +43,7 @@ $$
 x_1 = 2
 $$
 
-## 图片添加和显示
+## 对XKBLOG图片格式微调
 
 首先对于图片显示，我们的需求是本地和服务器保持一致，本地 typora 显示什么样，服务器显示啥样就很nice。所以我们首先是进行了主题的替换，whitey.css 文件已经在我们的主题上得到了迁移。这个步骤很nice。现在其实就差了图片的行为。图片行为比较复杂，没有那么简单，所以这里给出保持一致性的方法：
 
@@ -63,7 +63,7 @@ $$
 
 
 
-## 对主题添加 Mermaid 数据流图功能：
+## 对XKBLOG添加 Mermaid 数据流图功能
 
 ##### 用法和效果
 
@@ -91,7 +91,33 @@ graph LR
 	KaTex-->C(...)
 ```
 
-##### 功能开发细节
+##### mermaid 功能开发细节
 
-TODO
+首先需要知道mermaid其实本身就是一个js项目，用来在网站上添加使用文本文档描述的SVG流程图。所以在github上可以看到mermaid的官方网站。然后发现如果想要添加 mermaid 只需要引入 .js 文件并且加入初始化代码即可，然后mermaid.initialize(config)会直接将当前已经加载的 .mermaid 类型的元素的内容当作是graph describ 然后编译出 SVG 图片插入回去。所以最简单的一个实例代码就是: 
 
+```html
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="jquery-1.10.2.min.js"></script>
+    <body>
+        <p style="font-family: Songti SC; font-weight: lighter"> 我的 </p>
+        <code class='language-mermaid'>
+            graph TD;
+            A-->B;
+            A-->C;
+            B-->D;
+            C-->D;
+        </code>
+    </body>
+    <script>
+            mermaid.initialize({
+                startOnLoad:false, 
+            });
+            mermaid.init({}, '.language-mermaid')
+     </script>
+</html>
+```
+
+上述代码中的 mermaid.init(config, selector) 函数负责将 .language-mermaid 的class 也当作是图像定义处理，然后插入 SVG。因为通过开发者工具，发现在Jekyll 上面，我们会生成code.language-mermaid 的元素块。。。 
+
+总结一下mermaid是集成良好的 javascript 插件，对于所有的可以直接使用js的地方，mermaid都可以很好的集成，这点非常的nice。然后更多的mermaid config 可以去github上的官网查看。
