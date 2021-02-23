@@ -19,7 +19,7 @@ jekyll主题的官方网站： <http://jekyllthemes.org/>
 
 1. [Uno-Timeline](http://jekyllthemes.org/themes/Uno-Timeline/) : 一个很好的科研blog主题，见下图
 2. [Latex Jekyll](http://jekyllthemes.org/themes/LatexJekyll/):  一个 Latex 风格的 blog， 效果看起来很像论文的风格。个人很喜欢。
-3. [jekyll-rtd-theme](http://jekyllthemes.org/themes/jekyll-rtd-theme/) : 一个很常见的 doc 网站格式，看起来很棒。搜藏，以后用来做自己的项目的ReadMe
+3. [Jekyll-rtd-theme](http://jekyllthemes.org/themes/jekyll-rtd-theme/) : 一个很常见的 doc 网站格式，看起来很棒。搜藏，以后用来做自己的项目的ReadMe
 4. [Multiverse](http://jekyllthemes.org/themes/multiverse/) : 一个展示图片的主题，可以将不同的图片搭配文字展示出来。
 5. [Persephone](http://jekyllthemes.org/themes/persephone/) : 一个展示图片的主题，文艺风格，极简。感觉比4要好看点。用来做恋爱blog很合适。
 6. [LOFFER](http://jekyllthemes.org/themes/LOFFER/) : 一个blog的网站主题，风格很喜欢。而且支持 latex，如果当前使用的不支持latex的话，那么我估计要转这个主题了。
