@@ -80,3 +80,23 @@ graph LR
 	
 ```
 
+#### MaskRCNN 特征提取过程（放弃）
+
+[github 库地址](https://github.com/lichengunc/MAttNet)：这个库是MattNet的库地址，决定使用他的预处理方法来进行预处理。然后更改自己的ReferitDataset从这个数据集读取数据。将自己的模型分为2个部分，一个是Preprocess，一个是Training，一个是Inference。然后使用预先训练好的 mrcn 模型来进行特征提取。提取之后存储入h5文件。然后在Referit 数据集合中只需要使用基本的读取操作即可。通过这个方法，我们可以将 Referit 的数据集处理分离，专注 训练部分。 
+
+⚠️：教训得到，使用别人的预处理绝对比自己从头写好！！尤其是使用了别的模型作为预处理。除非是很简单的DataLoader比如推荐系统的陈博的。我们的 模型文件夹 只需要负责加入预处理脚本，同时对数据进行重新封装一下即可。新建一个DataLoader 名为 ReferitMrcn 来进行MattNet的开发。
+
+⚠️：我的看法改变了。各种bug我真的是烦死了。果然只要有C++就会有bug。果然还是docker好啊。安装啥的太麻烦了。但是运行不了docker啊
+
+⚠️：我放弃了，安装这个MaskRCNN真的是有毒一样。为什么他们用的版本那么老。就各种出问题。我直接在自己的Cvpack2里面实现吧。Cvpack2至少安装没啥问题了。我看懂提取的特征，然后使用FasterRCNN模拟吧。MaskRCNN再说吧。
+
+#### Cvpack2  Resnet  输出 Head Feature ： 1 x 1024 x H x W 
+
+接下来我们研究 Cvpack2中的Resnet如何提取出 mrcn 中需要的 Head Feature。其实也就是 ROI Pooling 前的feature，格式是 1 x 1024 x H x W 。应该在 ProposalNet中可以得到
+
+###### torch.nn.AdaptiveAvgPool2d((H, W)) ： 
+
+这个函数很有趣，以后AvgPool2D就用这个代替，其中H,W是所需要的输出，然后会自动给你设置Kernel 和 Stride。如果H=W=1 ，表示GlobalAveragePooling。
+
+
+
