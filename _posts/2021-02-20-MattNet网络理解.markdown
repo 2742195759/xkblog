@@ -5,8 +5,6 @@ date   : 2021-02-20 5:33:00 +0000
 category : DL
 ---
 
-##### 文章地址： From Mendeley
-
 ##### 当前难点：
 
 1. 需要高阶和低阶语义信息： 如何在ProposalNet 网络中添加C3和C4两个阶段的特征？？修改ProposalNet网络吗？
