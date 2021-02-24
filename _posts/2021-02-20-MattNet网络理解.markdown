@@ -62,5 +62,21 @@ typora-root-url: ../../../code
 
 在论文中，对Attribute Predict 分支的描述是下图的左边部分：
 
-<img src="/xkblog/public/img/截屏2021-02-24 下午5.48.52.png" alt="截屏2021-02-24 下午5.48.52" style="zoom:50%;" />
+<div align='center'><img src="/xkblog/public/img/截屏2021-02-24 下午5.48.52.png" alt="截屏2021-02-24 下午5.48.52" style="zoom:50%;" /></div>
+
+代码中，对于Attribute Prediction过程中，其中使用的是Resnet fc7(n, 2048, 7, 7) 和 pool5(n, 1024, 7, 7) 两个层次的信息。分别对应的就是上面的两个blob，然后使用 1x1 的卷机操作。最后的 avg.pooling 应该是 Global Average Pooling。而GAP和AP其实本质相同，唯一的不同是窗口的大小，GAP是窗口大小是Feature Map大小的AP。
+
+```python
+att_feats = self.att_fuse(torch.cat([pool5, fc7], 1))   # n x 49 x 512
+# self.att_fuse 是全连接 + BatchNorm + ReLU
+avg_att_feats = att_feats.view(batch, -1, 512).mean(1)  # n x 512
+avg_att_feats = nn.Dropout(0.3)(avg_att_feats)   # 在加上一层 Dropout
+att_scores = self.att_fc(avg_att_feats)    # output. # n x num_att
+```
+
+```mermaid
+graph LR
+	A[<font color='red'>Feature</font>] --> B[FC] --> C[BatchNorm] --> D(ReLU) --> E[Dropout] --> F(FC) --> G(<font color='red'>Score</font>)
+	
+```
 
