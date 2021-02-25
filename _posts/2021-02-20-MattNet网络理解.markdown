@@ -96,7 +96,50 @@ graph LR
 
 ###### torch.nn.AdaptiveAvgPool2d((H, W)) ： 
 
-这个函数很有趣，以后AvgPool2D就用这个代替，其中H,W是所需要的输出，然后会自动给你设置Kernel 和 Stride。如果H=W=1 ，表示GlobalAveragePooling。
+- 这个函数很有趣，以后AvgPool2D就用这个代替，其中H,W是所需要的输出，然后会自动给你设置Kernel 和 Stride。如果H=W=1 ，表示GlobalAveragePooling。
+
+##### Cvpack2 Backbone 
+
+文件夹：cvpack2/modeling/backbone/ 文件夹下
+
+```
+class Backbone : 
+- forward
+- output_shape (输出self._output_features中name对应的)
+	例如： 
+
+>>> self.backbone.bottom_up.output_shape()
+{'res2': ShapeSpec(channels=256, height=None, width=None, stride=4), 'res3': ShapeSpec(channels=512, height=None, width=None, stride=8), 'res4': ShapeSpec(channels=1024, height=None, width=None, stride=16), 'res5': ShapeSpec(channels=2048, height=None, width=None, stride=32)}
+```
+
+```
+class ResNet : 
+源文件:cvpack2/modeling/backbone/resnet.py
+```
+
+###### 更改 ResNet 的配置常用: 
+
+```
+# 更改输出的层 
+# 可以是 stem | res2 | res3 | res4(也就是head: 1024) | res5(2048) | linear
+# 然后一些展示: 
+out_features = cfg.MODEL.RESNETS.OUT_FEATURES 
+
+# 更改输出类
+num_classes = cfg.MODEL.RESNETS.NUM_CLASSES   
+```
+
+###### 创建ResNet方法：
+
+```python
+# Example from cvpack2/modeling/backbone/fpn.py
+from .resnet import build_resnet_backbone 
+bottom_up = build_resnet_backbone(cfg, input_shape)
+```
+
+###### 为 ProposalNet 添加 category_id 关键字
+
+
 
 
 
