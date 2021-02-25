@@ -267,7 +267,7 @@ class StandardROIHeads(ROIHeads):
             return pred_instances
 ```
 
-roi_heads 中的任务几乎都是使用 ROIPooler 进行PerBoxes特征提取。然后 \_forward\_XXX 作为任务计算。forward中会使用Output类：FastRCNNOutputs。这些Output类负责搜集计算Loss和Inference。
+roi_heads 中的任务几乎都是使用 ROIPooler 进行PerBoxes特征提取。然后 \_forward\_XXX 作为任务计算。forward中会使用Output类：FastRCNNOutputs。这些Output类负责搜集计算Loss和Inference。具体流程见下表：这个表是StandardROIHead的流程图。
 
 ```mermaid
 graph LR
@@ -277,7 +277,8 @@ A ---- D[Keypoint任务]
 
 B ---- B1[self.box_pooler]
 B ---- B2[self.box_head]
-B ---- B3[output用于计算Losses和inference]
+B ---- B3[self.box_predictor:OutputLayers,计算class logits]
+B ---- B4[output用于计算Losses和inference]
 
 C ---- C1[...]
 D ---- D1[...]
