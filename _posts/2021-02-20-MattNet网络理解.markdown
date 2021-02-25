@@ -102,7 +102,7 @@ graph LR
 
 文件夹：cvpack2/modeling/backbone/ 文件夹下
 
-```
+```pseudocode
 class Backbone : 
 - forward
 - output_shape (输出self._output_features中name对应的)
@@ -112,16 +112,16 @@ class Backbone :
 {'res2': ShapeSpec(channels=256, height=None, width=None, stride=4), 'res3': ShapeSpec(channels=512, height=None, width=None, stride=8), 'res4': ShapeSpec(channels=1024, height=None, width=None, stride=16), 'res5': ShapeSpec(channels=2048, height=None, width=None, stride=32)}
 ```
 
-```
+```pseudocode
 class ResNet : 
-源文件:cvpack2/modeling/backbone/resnet.py
+		源文件:cvpack2/modeling/backbone/resnet.py
 ```
 
 ###### 更改 ResNet 的配置常用: 
 
-```
+```python
 # 更改输出的层 
-# 可以是 stem | res2 | res3 | res4(也就是head: 1024) | res5(2048) | linear
+# 可以是 stem | res2(256) | res3(512) | res4(也就是head: 1024) | res5(2048) | linear
 # 然后一些展示: 
 out_features = cfg.MODEL.RESNETS.OUT_FEATURES 
 
@@ -137,9 +137,157 @@ from .resnet import build_resnet_backbone
 bottom_up = build_resnet_backbone(cfg, input_shape)
 ```
 
+###### Pytorch 的 ResNet 实现部分代码
+
+```python
+def forward(self, x):
+    x = self.conv1(x)  # stem
+
+    x = self.layer1(x) # res2
+    x = self.layer2(x) # res3
+    x = self.layer3(x) # res4
+    x = self.layer4(x) # res5
+
+    x = self.avgpool(x)# pool5
+    x = x.view(x.size(0), -1)
+    x = self.fc(x)     # linear
+    return x
+
+```
+
+##### Cvpack2 RCNN 类
+
+
+
+###### Cvpack2 RCNN 类的结构:
+
+见文件 cvpack2/modeling/meta_arch/rcnn.py : GeneralizedRCNN，其中包含3个大体抽象步骤：
+
+1. Per-image feature extraction (aka backbone : 见上一节)
+2. Region proposal generation (proposal_generator :  同目录下proposal_generator文件夹)
+3. Per-region feature extraction and prediction (roi_heads :  同目录下 roi_heads 文件夹)
+
+然后他们的流程图是： 
+
+```mermaid
+graph TD
+self.process_image --image--> self.backbone --featmap--> self.proposal_generator --per region-->self.roi_heads --"output"--> 结束
+```
+
+###### RCNN : roi_head
+
+roi_head 目录：cvpack2/modeling/roi_heads 。 这个部分主要的目的是将 Proposals 和 FeatureMap 作为输入，然后进行 per-proposal 的不同任务的输出。基类是 class ROIHeads。
+
+roi_head 内部有很多的变种和一些辅助类。其中最重要的是StandardROIHeads。这个类被很多meta arch使用。主要的抽象思想就是：Feature 和 Transform 在不同的task之间不共享，现在实现中包含3种Mask / Boxes / Keypoint任务。
+
+⚠️： 需要开启Mask任务，只需要在 cfg.MODEL.MASK_ON = True ;  Box任务是默认开启的。
+
+```python
+# StandardROIHeads 的 Box 任务
+class StandardROIHeads(ROIHeads):
+    def __init__(self, cfg, input_shape):
+        super(StandardROIHeads, self).__init__(cfg, input_shape)
+        self._init_box_head(cfg)  # 需要提供 cfg.build_box_head()
+        self._init_mask_head(cfg)
+        self._init_keypoint_head(cfg)
+        
+    def _init_box_head(self, cfg):
+        # fmt: off
+        pooler_resolution        = cfg.MODEL.ROI_BOX_HEAD.POOLER_RESOLUTION
+        pooler_scales            = tuple(1.0 / self.feature_strides[k] for k in self.in_features)
+        sampling_ratio           = cfg.MODEL.ROI_BOX_HEAD.POOLER_SAMPLING_RATIO
+        pooler_type              = cfg.MODEL.ROI_BOX_HEAD.POOLER_TYPE
+        self.train_on_pred_boxes = cfg.MODEL.ROI_BOX_HEAD.TRAIN_ON_PRED_BOXES
+        # fmt: on
+
+        # If StandardROIHeads is applied on multiple feature maps (as in FPN),
+        # then we share the same predictors and therefore the channel counts must be the same
+        in_channels = [self.feature_channels[f] for f in self.in_features]
+        # Check all channel counts are equal
+        assert len(set(in_channels)) == 1, in_channels
+        in_channels = in_channels[0]
+
+        self.box_pooler = ROIPooler(
+            output_size=pooler_resolution,
+            scales=pooler_scales,
+            sampling_ratio=sampling_ratio,
+            pooler_type=pooler_type,
+        )
+        # Here we split "box head" and "box predictor", which is mainly due to historical reasons.
+        # They are used together so the "box predictor" layers should be part of the "box head".
+        # New subclasses of ROIHeads do not need "box predictor"s.
+        self.box_head = cfg.build_box_head(
+            cfg, ShapeSpec(channels=in_channels, height=pooler_resolution, width=pooler_resolution)
+        )
+        self.box_predictor = FastRCNNOutputLayers(
+            self.box_head.output_size, self.num_classes, self.cls_agnostic_bbox_reg
+        )
+      
+    def _forward_box(
+        self, features: List[torch.Tensor], proposals: List[Instances]
+    ) -> Union[Dict[str, torch.Tensor], List[Instances]]:
+        """
+        Forward logic of the box prediction branch. If `self.train_on_pred_boxes is True`,
+            the function puts predicted boxes in the `proposal_boxes` field of `proposals` argument.
+
+        Args:
+            features (list[Tensor]): #level input features for box prediction
+            proposals (list[Instances]): the per-image object proposals with
+                their matching ground truth.
+                Each has fields "proposal_boxes", and "objectness_logits",
+                "gt_classes", "gt_boxes".
+
+        Returns:
+            In training, a dict of losses.
+            In inference, a list of `Instances`, the predicted instances.
+        """
+        box_features = self.box_pooler(features, [x.proposal_boxes for x in proposals])
+        box_features = self.box_head(box_features)
+        pred_class_logits, pred_proposal_deltas = self.box_predictor(box_features)
+        del box_features
+
+        outputs = FastRCNNOutputs(
+            self.box2box_transform,
+            pred_class_logits,
+            pred_proposal_deltas,
+            proposals,
+            self.smooth_l1_beta,
+        )
+        if self.training:
+            if self.train_on_pred_boxes:
+                with torch.no_grad():
+                    pred_boxes = outputs.predict_boxes_for_gt_classes()
+                    for proposals_per_image, pred_boxes_per_image in zip(proposals, pred_boxes):
+                        proposals_per_image.proposal_boxes = Boxes(pred_boxes_per_image)
+            return outputs.losses()
+        else:
+            pred_instances, _ = outputs.inference(
+                self.test_score_thresh, self.test_nms_thresh, self.test_detections_per_img
+            )
+            return pred_instances
+```
+
+roi_heads 中的任务几乎都是使用 ROIPooler 进行PerBoxes特征提取。然后 \_forward\_XXX 作为任务计算。forward中会使用Output类：FastRCNNOutputs。这些Output类负责搜集计算Loss和Inference。
+
+```mermaid
+graph LR
+A[StandardROIHeads] ---- B[Box任务]
+A ---- C[Mask任务]
+A ---- D[Keypoint任务]
+
+B ---- B1[self.box_pooler]
+B ---- B2[self.box_head]
+B ---- B3[output用于计算Losses和inference]
+
+C ---- C1[...]
+D ---- D1[...]
+```
+
 ###### 为 ProposalNet 添加 category_id 关键字
 
+由于 MattNet 需要寻找不同的Proposal的类别信息，所以直接使用ProposalNet判断有没有objectness 是不够的。需要使用FasterRCNN网络的预测头来进行处理。
 
+<font color='red'> Task1: 运行预训练好的 cvpack2.FasterRCNN 在图片上进行inference，展示目标检测结果(Todo) </font>
 
-
+Generated
 
