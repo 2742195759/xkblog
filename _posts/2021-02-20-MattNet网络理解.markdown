@@ -284,11 +284,52 @@ C ---- C1[...]
 D ---- D1[...]
 ```
 
-###### 为 ProposalNet 添加 category_id 关键字
+###### Cvpack2 ROIPooler 类的说明：
+
+文件目录 cvpack2/modeling/poolers.py
+
+这个文件所在的目录表示的是具体的Pooling过程，但是Cvpack2中的Pooler将所有的功能都集成在了一个类中，其中type包含ROIPooling和AlignPooling等几种。他具有如下的forward调用借口：
+
+```python
+class ROIPooler: 
+		def forward(features, boxes):
+				# 其中 features 和 boxes 都是一个 list，并且boxes的list维度表示batch，但是features的list维度表示不同的Pool Level，例如features可以是['p2', 'p3', 'p4', 'p5']的FPN输出。
+				# return 的是 M x C x Out x Out 其中 M 是总的batch的输出。C是channel个数。
+```
+
+上面的描述，有一个问题❓：<font color='red'>features的不同Level对结果的影响是什么呢？</font>（done）
+
+<font color='green'>通过断点调试，我们发现，不同的Levels的影响还是有的。那就是对于1000个Boxes。每个Boxes是由不同Levels Pooling出来的，有点是第一层，有的是第二层。例如981个是第一层，19个是第二层。具体哪些是第第几层pooling出来的其实就看boxes的大小，因为features满足特征金字塔。例如FPN是[256, 56, 56] -> [256, 28, 28] -> [256, 14, 14] -> [256, 7, 7]，所以其实缩放因子越来越大，因此应该是越大的box更加容易被后续的feature pooling。</font>
+
+###### 为 ProposalNet 输出添加 classes 关键字
 
 由于 MattNet 需要寻找不同的Proposal的类别信息，所以直接使用ProposalNet判断有没有objectness 是不够的。需要使用FasterRCNN网络的预测头来进行处理。
 
-<font color='red'> Task1: 运行预训练好的 cvpack2.FasterRCNN 在图片上进行inference，展示目标检测结果(Todo) </font>
+<font color='red'> (Done). Task1: 运行预训练好的 cvpack2.FasterRCNN 在图片上进行inference，展示目标检测结果 </font>
 
-Generated
+首先，将训练好的FasterRCNN模型在图片上进行inference，可以发现得到的pred_boxes结果其实很少。而且位置很准确。所以可以看到，1. FasterRCNN确实训练良好 2. 我们的FasterRCNN其实可以让Proposals的质量更好。设置Proposal的参数是： frcnn_config.py:  SCORE_THRESH_TEST=0.4 。如果Class Score小于这个数值，那么就不设置为前景box。
 
+<div align='center'><img src="/xkblog/public/img/截屏2021-02-25 下午10.32.33.png" alt="截屏2021-02-25 下午10.32.33" style="zoom:50%;" /></div>
+
+具体的代码见：cvpack2_model/phraseground/FasterRCNN。这个代码块运行包含展示上面图片，存储计算的数据等功能。
+
+```
+        return [{
+            'file_name': b['file_name'], 				# COCO_sdfsdfsdfs_00120102.jpg
+            'proposals': p['instances'].pred_boxes.tensor.cpu().numpy().tolist(),  # N x 4
+            'feature'  : p['instances'].pool5.cpu().numpy(),   # N x 256 x 7 x 7
+            'classes'  : p['instances'].pred_classes.cpu().numpy().tolist(),   # N ,
+        } for b, p in zip(batched_inputs, ret) ]
+```
+
+<font color='red'>(Done). Task2:  实现细节</font>
+
+实现的细节就是，看懂GeneralizedRCNN这个类，由于类中各种过程都写成了函数，所以可以很方便的调用他们的过程。这里记录一下实现的关键的一些过程。
+
+第一，通过 self.frcnn.inference(batched_inputs, None, False) # 将post处理设置为False，就可以获得之前的pred_boxes（对 224, 224 来说）。
+
+首先是 self.frcnn.preprocess_image(batched_inputs)   获得处理之后的 Image Tensor
+
+其次是 self.frcnn.backbone(Image) 得到feature_dict。
+
+然后是 将获取的 pred_boxes 获取并转化为list，然后进行 self.frcnn.roi_heads.box_pooler( list_feature, list_boxes )。
