@@ -72,7 +72,7 @@ typora-root-url: ../../../code
 
    | acc@1 | acc@5 | acc@10 | acc@1000 |
    | :---: | :---: | :----: | :------: |
-   | 0.533 | 0.990 | 1.000  |  1.000   |
+   | 0.530 | 0.992 | 1.000  |  1.000   |
 
 4. <font color='green'>Done</font> RandomSelect模型，随机选择一个GT-Proposals作为输出，看EasyEval的结果 【看看我们的任务难度，是否50%是最基本的baseline？因为MattNet-BN就是50%左右？看看这个50%是不是最容易得到的结果。】[具体实验](#RandomSelect模型在 EasyProposal上的测试)
 
@@ -91,6 +91,12 @@ BN层不是所有的情况下都会有作用。例如在这个任务中，添加
 固定Epoch=6，其余采样和sample策略和MattNet保持一致。
 
 #### 实验结果：
+
+| acc@1 | acc@5 | acc@10 | acc@1000 |
+| :---: | :---: | :----: | :------: |
+| 0.725 | 0.998 | 1.000  |  1.000   |
+
+实验结果可以看出：EasyProposals确实可以有很高的精度。
 
 ## RandomSelect模型在 EasyProposal上的测试
 
@@ -112,3 +118,35 @@ BN层不是所有的情况下都会有作用。例如在这个任务中，添加
 
 ## MattNet 调参实验
 
+这个实验是对MattNet简单参数的结果进行记录，以查看其他的
+
+##### SOLVER.OPTIMIZER.BASE_LR：[0.0001, 0.001, 0.01]
+
+Total Output Key: [0.769, 0.809, 0.789]
+Find Better SOLVER.OPTIMIZER.BASE_LR=0.001: 
+
+Results:
+
+| acc@1 | acc@5 | acc@10 | acc@1000 |
+| :---: | :---: | :----: | :------: |
+| 0.809 | 0.998 | 1.000  |  1.000   |
+
+##### MODEL.BPR.MARGIN：[0.1, 0.5, 1.0, 2.0]
+
+Total Output Key: [0.809, 0.785, 0.752, 0.428]
+Find Better MODEL.BPR.MARGIN=0.1: 
+
+| acc@1 | acc@5 | acc@10 | acc@1000 |
+| :---: | :---: | :----: | :------: |
+| 0.809 | 0.999 | 1.000  |  1.000   |
+
+##### DATASETS.NUM_NEG_REGION：[1, 3, 5, 7]
+
+Total Output Key: [0.792, 0.796, 0.803, 0.804]
+Find Better DATASETS.NUM_NEG_REGION=7: 
+
+| acc@1 | acc@5 | acc@10 | acc@1000 |
+| :---: | :---: | :----: | :------: |
+| 0.804 | 0.999 | 1.000  |  1.000   |
+
+可见，margin其实太大的话，会影响精度，目前0.1是比较合理的数值。原因可能是如果margin太大，更加容易过拟合（因为网络需要更加复杂才可以把它们拉的足够远。）
