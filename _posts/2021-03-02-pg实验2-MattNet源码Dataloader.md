@@ -52,21 +52,33 @@ typora-root-url: ../../../code
 
 #### 实验结果：
 
+***(2/4)***
+
 ***epoch=6:*** [1h]
 
-1. **复现最高点**：<font color='green'>sub + attr + no-batchnorm + no-dropout + 3 neg + 0.5 sample ratio</font>
+1. <font color='green'>Done</font>  **复现最高点**：<font color='green'>sub + attr + no-batchnorm + no-dropout + 3 neg + 0.5 sample ratio</font>
 
 | acc@1 | acc@5 | acc@10 | acc@1000 |
 | :---: | :---: | :----: | :------: |
 | 0.804 | 0.999 | 1.000  |  1.000   |
 
-2. 继承1 + no normalized(matcher)  【判断ImageCrop-Sentence Search任务中，cosine 和 dot 哪个更加好？为什么？】
-3. 继承1 + with BN 【确认问题是否是BN引起的？单因素变量！】：观察到 train-acc会很容易到1.0，确实有点问题。而且BoxLoss = 0.000 了，这表明模型应该是通过BN找打了某种捷径。
-4. 继承1 + BatchSize( 32 -> 16 ) 【排查是否是bs的原因？】
+2. <font color='green'>Done</font> 继承1 + no normalized(matcher)  【cosine 似乎和 dot差不多。所以两个其实差不多！】：
+
+   | acc@1 | acc@5 | acc@10 | acc@1000 |
+   | :---: | :---: | :----: | :------: |
+   | 0.797 | 0.998 | 1.000  |  1.000   |
+
+3. <font color='red'>Done</font> 继承1 + with BN【MattNet-BN】 【确认问题是否是BN引起的？单因素变量！】：观察到 train-acc会很容易到1.0，确实有点问题。而且BoxLoss = 0.000 了，这表明模型应该是通过BN找打了某种捷径。
+
+   | acc@1 | acc@5 | acc@10 | acc@1000 |
+   | :---: | :---: | :----: | :------: |
+   | 0.533 | 0.990 | 1.000  |  1.000   |
+
+4. <font color='red'>Doing</font> RandomSelect模型，随机选择一个GT-Proposals作为输出，看EasyEval的结果 【看看我们的任务难度，是否50%是最基本的baseline？因为MattNet-BN就是50%左右？看看这个50%是不是最容易得到的结果。】[具体实验](#RandomSelect 模型在 EasyProposal 上的测试)
 
 #### 实验结论：
 
-BN层不是所有的情况下都会有作用。例如在这个任务中，添加了BN层和没有添加BN层是完全不同的效果（20% -> 80%）。几乎可以理解为，BN层导致网络完全无法使用了。
+BN层不是所有的情况下都会有作用。例如在这个任务中，添加了BN层和没有添加BN层是完全不同的效果（53% -> 80%）。几乎可以理解为，BN层导致网络出了很大的问题。
 
 <font color='green'>总结一下我是如何寻找到BN层的问题的：</font>首先是我发现在训练过程中，train-acc 确实很大，几乎所有的都是1.0。（train acc就是正样本分数 > 负样本分数的样本比例）。因此首先想到的是过拟合。但是发现将训练好的模型在训练集合上Eval，效果也就是50%左右。这个现象很反常，因此我单步调试，发现batchsize的大小，会影响输出的大小。比如在bs=64下训练的模型，在bs != 64 的情况下，会出现很多负样本 > 正样本的情况。而这个 bs 不同影响输出的层就只有BN层了。然后将BN去掉，发现首先train-acc上升的没有那么异常，其次是效果提升巨大。因此BN层有问题无疑了。
 
@@ -76,5 +88,23 @@ BN层不是所有的情况下都会有作用。例如在这个任务中，添加
 
 为了验证MAttNet对SCRC的改进大小，首先得让他们具有可比性。因此下一步将在EasyProposals数据集上面重新适配SCRC模型，看SCRC模型在EasyProposals DataLoader的情况下，会得到什么样的效果？
 
+固定Epoch=6，其余采样和sample策略和MattNet保持一致。
+
+#### 实验结果：
+
+## RandomSelect 模型在 EasyProposal 上的测试
+
+为了验证MattNet的具体效果，需要知道EasyProposals具体有多么Easy，所以我们创造了一个RandomSelect模型作为Baseline，然后评估这个RandomSelect模型在EasyProposals数据集上的测试结果。
+
 #### 实验设计：
+
+简单的设计就是，我们的RandomSelect是无参数模型，只包含Eval过程。在eval过程中，我们将随机选择Props的一个region作为最高scores，这样就得到了随机选择的效果。然后看准确率。
+
+准确率需要和MattNet-BN模型进行对比，对比之后可以知道加入了BN的模型，是完全不行还是部分可行。预计结果应该低于 50%。
+
+固定Epoch=6，其余采样和sample策略和MattNet保持一致。
+
+#### 实验结果：
+
+## MattNet 调参实验
 
