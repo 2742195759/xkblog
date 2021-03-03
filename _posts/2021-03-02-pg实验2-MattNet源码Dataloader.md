@@ -74,7 +74,7 @@ typora-root-url: ../../../code
    | :---: | :---: | :----: | :------: |
    | 0.533 | 0.990 | 1.000  |  1.000   |
 
-4. <font color='red'>Doing</font> RandomSelect模型，随机选择一个GT-Proposals作为输出，看EasyEval的结果 【看看我们的任务难度，是否50%是最基本的baseline？因为MattNet-BN就是50%左右？看看这个50%是不是最容易得到的结果。】[具体实验](#RandomSelect 模型在 EasyProposal 上的测试)
+4. <font color='green'>Done</font> RandomSelect模型，随机选择一个GT-Proposals作为输出，看EasyEval的结果 【看看我们的任务难度，是否50%是最基本的baseline？因为MattNet-BN就是50%左右？看看这个50%是不是最容易得到的结果。】[具体实验](#RandomSelect模型在 EasyProposal上的测试)
 
 #### 实验结论：
 
@@ -92,7 +92,7 @@ BN层不是所有的情况下都会有作用。例如在这个任务中，添加
 
 #### 实验结果：
 
-## RandomSelect 模型在 EasyProposal 上的测试
+## RandomSelect模型在 EasyProposal上的测试
 
 为了验证MattNet的具体效果，需要知道EasyProposals具体有多么Easy，所以我们创造了一个RandomSelect模型作为Baseline，然后评估这个RandomSelect模型在EasyProposals数据集上的测试结果。
 
