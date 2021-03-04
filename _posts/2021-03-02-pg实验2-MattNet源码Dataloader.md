@@ -76,6 +76,16 @@ typora-root-url: ../../../code
 
 4. <font color='green'>Done</font> RandomSelect模型，随机选择一个GT-Proposals作为输出，看EasyEval的结果 【看看我们的任务难度，是否50%是最基本的baseline？因为MattNet-BN就是50%左右？看看这个50%是不是最容易得到的结果。】[具体实验](#RandomSelect模型在 EasyProposal上的测试)
 
+   | acc@1 | acc@5 | acc@10 | acc@1000 |
+   | :---: | :---: | :----: | :------: |
+   | 0.398 | 1.000 | 1.000  |  1.000   |
+
+5. <font color='green'>Done</font> 继承1 + with attrbute alpha = 0。【消除AttributePredictBranch的影响，验证AttributePredictBranch是否有效】发现其实AttributePredict模块对结果的影响其实很小。可能是因为我们的FPN网络本来就融合了多层的信息。所以效果不大。
+
+   | acc@1 | acc@5 | acc@10 | acc@1000 |
+   | :---: | :---: | :----: | :------: |
+   | 0.807 | 0.999 | 1.000  |  1.000   |
+
 #### 实验结论：
 
 BN层不是所有的情况下都会有作用。例如在这个任务中，添加了BN层和没有添加BN层是完全不同的效果（53% -> 80%）。几乎可以理解为，BN层导致网络出了很大的问题。
