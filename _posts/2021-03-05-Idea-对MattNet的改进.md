@@ -48,5 +48,11 @@ MattNet其实主要就是使用“限制连接”的思想来增强模型效果�
 
 在具有同样信息的前提下，限制连接应该是更好的方法，但是前提必须要有效的限制。因为通过有效的限制连接，我们可以让模型具有更多的先验知识，然后这些连接会让模型有更大的概率收敛到我们预先设定的先验上。
 
-举个例子：如果对于Loc和Sub两个模块
+举个例子：如果对于Loc和Sub两个模块，本来我们具有以下几个信息：
+
+<div align='center' height=100px width=100px><img src="/xkblog/public/img/image-20210305165930143.png" alt="image-20210305165930143" style="zoom:50%;" /><img src="/xkblog/public/img//image-20210305170037984.png" alt="image-20210305170037984" style="zoom:50%;" /></div>
+
+通过上述的比较，我们发现ModularNetwork的优点在于，我们使用先验知识将不同特征的作用域***显示*** 的划分了。例如在Sub模型中，我们的目的只找到phrase指向的主要物体，所以我们不考虑Loc的信息，这样对于Sub模型来说，减少了位置信息和Context信息的使用，这样会让Sub和Phrase具有更加明确的对应关系。同理，对于Loc信息来说，我们只是用了SpatialFeature，因此当位置信息和某一个词语出现同时出现的概率很高时（强相关 / 协方差很大），我们的模型将会给该词语对该SpatialFeature更高的权重。上述的过程，其实也就是各个Modular模型学习的主要过程了。
+
+***为什么RelationModular效果不好：*** 首先
 
