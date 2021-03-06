@@ -54,5 +54,23 @@ MattNet其实主要就是使用“限制连接”的思想来增强模型效果�
 
 通过上述的比较，我们发现ModularNetwork的优点在于，我们使用先验知识将不同特征的作用域***显示*** 的划分了。例如在Sub模型中，我们的目的只找到phrase指向的主要物体，所以我们不考虑Loc的信息，这样对于Sub模型来说，减少了位置信息和Context信息的使用，这样会让Sub和Phrase具有更加明确的对应关系。同理，对于Loc信息来说，我们只是用了SpatialFeature，因此当位置信息和某一个词语出现同时出现的概率很高时（强相关 / 协方差很大），我们的模型将会给该词语对该SpatialFeature更高的权重。上述的过程，其实也就是各个Modular模型学习的主要过程了。
 
-***为什么RelationModular效果不好：*** 首先
+***1. 为什么RelationModular权重普遍偏低：*** 首先对数据集观察，发现存在异样Category物体的训练样本很少，大多数都是同类。这个是导致RelAttScore很低的原因，因为存在mask，多数样本mask=0，这样的话Rel模块不会被训练到，所以其实本质上还是一个数据不平衡的问题导致Softmax偏重于占比大的Modular。
+
+<font color='red'>验证上述1的想法： </font>
+
+实验基本表明原因是正确的。因为打印出了三种不同的Score随着时间的变化，发现score-rel一直都是0左右。说明很多的region没有不同category的surroundings。这样的话，mask的存在会导致score=0。然后 rel模块中的参数长期得不到训练，保持一个较小的数值（因为sub和loc就是从0.01开始上升的，所以初始化的数值都是很小的。）
+
+所以不可以认为是因为RelationModualr设计不合理导致的，而是数据不平衡导致训练不充分导致的。【这个问题在Self-Adapted Modular Network中也需要解决】
+
+#### 想法3
+
+<font color='red'>一些初步的想法：</font>
+
+***Self-Grouping Network***：自组合网络主要的思想就是，利用文本的组合性质，然后不直接对单词属性进行
+
+***Gated FC-Network***：Gated FCN主要的思想是，自适应的连接限制网络。唯一不同的是将Weight变成了计算出来的一个scalar
+
+#### 观察3
+
+【TODO】打印出预测不准确的 Image-Sentence Pair，找出预测不准确的原因。
 
