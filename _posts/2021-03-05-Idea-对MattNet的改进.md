@@ -72,5 +72,19 @@ MattNet其实主要就是使用“限制连接”的思想来增强模型效果�
 
 #### 观察3
 
-【TODO】打印出预测不准确的 Image-Sentence Pair，找出预测不准确的原因。
+***important***
 
+【DONE】打印出预测不准确的 Image-Sentence Pair，找出预测不准确的原因。
+
+通过在visual tool中添加了filter，只筛选出所有预测误差IOU < 0.5 的物体，我们得到了如下的一下观察和猜想： 
+
+1. MattNet对于不同物体关联没有很好的建模：（on the floor之类的。因为Relation模块没有被很好的学习！）
+2. 非通用词汇 / Implict词汇怎么办？低频率Vocabulary是一个难以处理的点。（可以参考zero-shot learning？）：例如MattNet模型可以很好的理解woman，但是却无法理解 Bikini / 卡其裤之类的词语。
+3. 远近关系，3D关系没有很好的被理解：例如Closest to the camera / on the floor 等之类的。
+4. 多个物体之间的关系：例如 3rd 之类的。laptop right to the cat。相对关系没有找准，right会默认寻找global right，而不是cat的right。
+
+【TODO1】编写工具，可以查看training数据集中，某个词出现在句子中的句子个数。用来看是否是low frequency words
+
+【TODO2】由于PhraseAttention模块只与Tokens相关。可以编写工具，对所有训练集合中的句子经过PhraseAttention后，将所有的单词按照Threshold分类，然后查看sub/rel/loc三类对应的词汇分别是什么。
+
+【TODO3】
