@@ -82,9 +82,14 @@ MattNet其实主要就是使用“限制连接”的思想来增强模型效果�
 2. 非通用词汇 / Implict词汇怎么办？低频率Vocabulary是一个难以处理的点。（可以参考zero-shot learning？）：例如MattNet模型可以很好的理解woman，但是却无法理解 Bikini / 卡其裤之类的词语。
 3. 远近关系，3D关系没有很好的被理解：例如Closest to the camera / on the floor 等之类的。
 4. 多个物体之间的关系：例如 3rd 之类的。laptop right to the cat。相对关系没有找准，right会默认寻找global right，而不是cat的right。
+5. 利用物体的部位 / 例如Hand /  Ass / Butt 或者是衣服上的某一个图标之类的。难以定位。
 
 【TODO1】编写工具，可以查看training数据集中，某个词出现在句子中的句子个数。用来看是否是low frequency words
 
 【TODO2】由于PhraseAttention模块只与Tokens相关。可以编写工具，对所有训练集合中的句子经过PhraseAttention后，将所有的单词按照Threshold分类，然后查看sub/rel/loc三类对应的词汇分别是什么。
 
-【TODO3】
+【DONE】编写输出函数：包含图像和inner box的attention featmap。然后展示出图像的attention部分。
+
+<img src="/xkblog/public/img/截屏2021-03-09 上午1.33.47.png" alt="截屏2021-03-09 上午1.33.47" style="zoom:50%;" />
+
+【TODO3】对word embedding进行TSNE，观察 battle / player / man / dudy 之类的语言是否具有相似的Embedding，如果不具有相似embedding，那么这个就是一个改进点。（同义词转换模块）
