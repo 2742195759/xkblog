@@ -20,7 +20,7 @@ os.system("mkdir -p /home/data/dataset/cv/")
 os.system("mkdir -p /home/data/cache")
 if not osp.exists(osp.join('/home/data/cache', 'Referit.tar')):
     print ("Downloading Referit dataset for cvpack_model")
-    os.system('wget -c https://cloud.tsinghua.edu.cn/f/38cf90e4c5984b388ef5/?dl=1 -O /home/data/cache/Referit.tar')
+    os.system('wget -c https://cloud.tsinghua.edu.cn/f/add87fb900294f0eb67d/?dl=1 -O /home/data/cache/Referit.tar')
     print ("Downloaded")
 if not osp.exists('/home/data/dataset/cv/referit'):
     os.system('tar -xf /home/data/cache/Referit.tar -C /home/data/dataset/cv/')
