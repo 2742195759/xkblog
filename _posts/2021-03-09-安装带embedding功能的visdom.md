@@ -1,5 +1,5 @@
 ---
-layout : post
+`layout : post
 title  : Visdom-Embedding功能使用
 date   : 2021-03-09 13:00:00 +0000
 category : cvpack2
@@ -9,7 +9,7 @@ typora-root-url: ../../../code
 
 visdom其实在 [issue611](https://github.com/fossasia/visdom/pull/611)中添加了对Embedding可视化的支持。但是如果想要使用这个功能，需要安装一些额外的依赖库，同时使用的文档其实也不多。所以这里总结一下，记录对visdom embedding的vis.embedding函数的使用，以及碰到的一些坑点。
 
-#### 安装方法
+#### 安装方法（bbtsne在发送端安装、服务端保持版本一致即可）
 
 如果是单纯的visdom传统功能，只需要很简单的pip install visdom来进行安装，同时使用 visdom 就可以打开服务器了。但是如果想要使用embedding功能，需要额外的几个步骤。
 
