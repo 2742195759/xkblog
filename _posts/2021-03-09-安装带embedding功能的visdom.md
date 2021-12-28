@@ -1,5 +1,5 @@
 ---
-`layout : post
+layout : post
 title  : Visdom-Embedding功能使用
 date   : 2021-03-09 13:00:00 +0000
 category : cvpack2
